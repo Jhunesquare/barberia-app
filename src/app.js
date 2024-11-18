@@ -1,13 +1,18 @@
 const express = require("express");
-const morgan = require("morgan");
+
+const authRouter = require('./routes/auth.router');
+const userRouter = require('./routes/user.router');
 
 const app = express();
+const bodyParser = require('body-parser');
 
-app.use(morgan("dev"));
-app.use(express.jason());
+app.use(bodyParser.urlencoded({ extended: true })); // Para datos en URL
+app.use(bodyParser.json());
+
+app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use(require("./routes/index"));
-app.use(require("./controller/userController"));
+app.use("/api/v1/auth", authRouter.router);
+app.use("/api/v1/create", userRouter.router);
 
-module.exports = app;
+module.exports = {app};
