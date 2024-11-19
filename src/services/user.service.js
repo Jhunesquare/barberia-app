@@ -35,7 +35,7 @@ const createService = async (req, res) =>{
                 msg: 'usuario [' + data.correo + '] ya tiene cuenta'
             });
         }
-    } catch (error) {
+    } catch (e) {
         return res.status(400).json({
             msg: 'acción no permitida'
         });

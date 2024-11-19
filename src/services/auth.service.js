@@ -1,7 +1,6 @@
 const {db} = require("../firebase");
 const bcrypt = require('bcrypt');
 
-
 const authService = async (req, res) =>{
     try {
 
