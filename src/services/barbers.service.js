@@ -1,8 +1,9 @@
-const { db } = require("../firebase");
+const { db } = require("../utils/firebase");
 const bcrypt = require('bcrypt');
 
-const createService = async (rq, res) => {
-    const { nombre, apellido, correo } = req;
+const createService = async (req, res) => {
+
+    const { nombre, barberoNombre, direccion, correo } = req;
 
     let { contraseña } = req;
     const salt = bcrypt.genSaltSync();
@@ -45,4 +46,39 @@ const createService = async (rq, res) => {
     console.log(nombre, apellido, correo, contraseña);
 }
 
-module.exports = {createService};
+const getAllService = async (req, res) => {
+
+    try {
+
+        const querySnapshot = await db.collection('barberias').get();
+
+        if (querySnapshot.empty) {
+
+            res.status(404).json({
+                msg: 'no data'
+            });
+
+        } else {
+
+            const barberias = querySnapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            }));
+
+            console.log(barberias);
+
+            res.status(200).json({
+                msg: 'OK',
+                data_list: barberias
+            });
+        }
+
+    } catch (e) {
+        res.status(400).json({
+            msg: 'bad request',
+            error: e
+        });
+    }
+}
+
+module.exports = { createService, getAllService };

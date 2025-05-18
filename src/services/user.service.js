@@ -1,7 +1,8 @@
-const {db} = require("../firebase");
+const {db} = require("../utils/firebase");
 const bcrypt = require('bcrypt');
 
 const createService = async (req, res) =>{
+
     const { nombre, apellido, correo } = req;
 
     let {contraseña} = req;
