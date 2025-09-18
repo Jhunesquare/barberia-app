@@ -1,10 +1,10 @@
 const {verifyToken} = require('../utils/jwt');
 const services = require('../services/barbers.service');
 
-const createBarber = async (req, res) => {
+const createLocal = async (req, res) => {
     const data = req.body;
     //console.log("Email: ", data.correo);
-    if (!data.nombre || !data.barberoNombre || !data.correo || !data.direccion || !data.contraseña) {
+    if (!data.nombre || !data.empleado_id || !data.correo || !data.direccion || !data.contraseña) {
         return res.status(400).json(
             {
                 msg: 'error de credenciales'
@@ -41,4 +41,4 @@ const getAll = async (req, res) => {
 
 }
 
-module.exports = { createBarber, getAll }
+module.exports = { createLocal, getAll }

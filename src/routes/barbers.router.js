@@ -1,9 +1,9 @@
 const express = require("express");
-const {createBarber, getAll} = require("../controller/barbersController");
+const {createLocal, getAll} = require("../controller/barbersController");
 
 const router = express.Router();
 
-router.post("/create", createBarber);
+router.post("/create_local", createLocal);
 
 router.get("", getAll)
 

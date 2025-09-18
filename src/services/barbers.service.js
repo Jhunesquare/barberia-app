@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 
 const createService = async (req, res) => {
 
-    const { nombre, barberoNombre, direccion, correo } = req;
+    const { nombre, empleado_id, direccion, correo, rol } = req;
 
     let { contraseña } = req;
     const salt = bcrypt.genSaltSync();
@@ -11,7 +11,7 @@ const createService = async (req, res) => {
 
     try {
 
-        const data = await db.collection('barberias').where('correo', '==', req.correo).get();
+        const data = await db.collection('local').where('correo', '==', req.correo).get();
         const dataSnapshot = [];
 
         data.docs.forEach(doc => {
@@ -19,12 +19,13 @@ const createService = async (req, res) => {
         });
 
         if (dataSnapshot.length == 0) {
-            await db.collection('barberias').add({
+            await db.collection('local').add({
                 nombre,
-                barberoNombre,
+                empleado_id,
                 direccion,
                 correo,
-                contraseña
+                contraseña,
+                rol
             })
 
             return res.status(201).json({
@@ -43,14 +44,14 @@ const createService = async (req, res) => {
         });
     }
 
-    console.log(nombre, apellido, correo, contraseña);
+    console.log(nombre, empleado_id, direccion, correo, rol);
 }
 
 const getAllService = async (req, res) => {
 
     try {
 
-        const querySnapshot = await db.collection('barberias').get();
+        const querySnapshot = await db.collection('local').get();
 
         if (querySnapshot.empty) {
 
@@ -60,16 +61,16 @@ const getAllService = async (req, res) => {
 
         } else {
 
-            const barberias = querySnapshot.docs.map(doc => ({
+            const local = querySnapshot.docs.map(doc => ({
                 id: doc.id,
                 ...doc.data()
             }));
 
-            console.log(barberias);
+            console.log(local);
 
             res.status(200).json({
                 msg: 'OK',
-                data_list: barberias
+                data_list: local
             });
         }
 
