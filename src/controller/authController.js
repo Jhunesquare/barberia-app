@@ -10,7 +10,7 @@ const auth = async (req, res) => {
             }
         )
     }
-    await authServices.authService(data, res)
+    await authServices.authService(data, res);
 }
 
 module.exports = {auth};
