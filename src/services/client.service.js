@@ -43,7 +43,7 @@ const createService = async (req, res) => {
         });
     }
 
-    console.log(nombre, apellido, correo, contraseña, celular);
+    //console.log(nombre, apellido, correo, contraseña, celular);
 }
 
 const getAllService = async (req, res) => {
