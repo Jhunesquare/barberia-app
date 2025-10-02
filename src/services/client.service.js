@@ -1,17 +1,17 @@
-const { db } = require("../utils/firebase");
+const {db} = require('../utils/firebase');
 const bcrypt = require('bcrypt');
 
 const createService = async (req, res) => {
 
-    const { nombre, empleado_id, direccion, correo, rol } = req;
+    const { nombre, apellido, correo, celular } = req;
 
-    let { contraseña } = req;
+    let {contraseña} = req;
     const salt = bcrypt.genSaltSync();
     contraseña = bcrypt.hashSync(contraseña, salt);
 
     try {
-
-        const data = await db.collection('local').where('correo', '==', req.correo).get();
+        
+        const data = await db.collection('clientes').where('correo','==', req.correo).get();
         const dataSnapshot = [];
 
         data.docs.forEach(doc => {
@@ -19,20 +19,19 @@ const createService = async (req, res) => {
         });
 
         if (dataSnapshot.length == 0) {
-            await db.collection('local').add({
+            await db.collection('clientes').add({
                 nombre,
-                empleado_id,
-                direccion,
+                apellido,
                 correo,
                 contraseña,
-                rol
+                celular
             })
 
             return res.status(201).json({
                 msg: 'usuario [' + data.correo + '] creado exitosamente'
             });
 
-
+            
         } else {
             return res.status(406).json({
                 msg: 'usuario [' + data.correo + '] ya tiene cuenta'
@@ -44,14 +43,14 @@ const createService = async (req, res) => {
         });
     }
 
-    console.log(nombre, empleado_id, direccion, correo, rol);
+    console.log(nombre, apellido, correo, contraseña, celular);
 }
 
 const getAllService = async (req, res) => {
 
     try {
 
-        const querySnapshot = await db.collection('local').get();
+        const querySnapshot = await db.collection('clientes').get();
 
         if (querySnapshot.empty) {
 
@@ -70,7 +69,7 @@ const getAllService = async (req, res) => {
 
             res.status(200).json({
                 msg: 'OK',
-                data_list: local
+                data_list: clientes
             });
         }
 
@@ -82,4 +81,34 @@ const getAllService = async (req, res) => {
     }
 }
 
-module.exports = { createService, getAllService };
+const getByIdService = async (req, res) => {
+
+    try {
+
+        const id = req.params.id;
+
+        const querySnapshot = await db.collection('clientes').where('id', '==', id).get();
+
+        if (querySnapshot.empty) {
+
+            res.status(404).json({
+                msg: 'no data'
+            });
+            
+        } else {
+            const local = querySnapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            }));
+
+            console.log(local);
+        }
+    } catch (e) {
+        res.status(400).json({
+            msg: 'bad request',
+            error: e
+        });
+    }
+}
+
+module.exports = {createService, getAllService, getByIdService};
