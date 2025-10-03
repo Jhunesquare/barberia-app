@@ -5,6 +5,7 @@ const clientRouter = require('./v1/routes/client.router');
 const businessRouter = require('./v1/routes/business.router');
 const scheduleRouter = require('./v1/routes/schedule.router');
 const employeeRouter = require('./v1/routes/employee.router');
+const productRouter = require('./v1/routes/product.router');
 
 const app = express();
 const bodyParser = require('body-parser');
@@ -20,5 +21,6 @@ app.use('/api/v1/business', businessRouter.router);
 app.use('/api/v1/client', clientRouter.router);
 app.use('/api/v1/schedule', scheduleRouter.router);
 app.use('/api/v1/employees', employeeRouter);
+app.use('/api/v1/product', productRouter);
 
 module.exports = {app};
