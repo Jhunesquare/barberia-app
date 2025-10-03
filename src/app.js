@@ -6,6 +6,7 @@ const businessRouter = require('./v1/routes/business.router');
 const scheduleRouter = require('./v1/routes/schedule.router');
 const employeeRouter = require('./v1/routes/employee.router');
 const productRouter = require('./v1/routes/product.router');
+const business_productRouter = require('./v1/routes/business_product.router');
 
 const app = express();
 const bodyParser = require('body-parser');
@@ -22,5 +23,6 @@ app.use('/api/v1/client', clientRouter.router);
 app.use('/api/v1/schedule', scheduleRouter.router);
 app.use('/api/v1/employees', employeeRouter);
 app.use('/api/v1/product', productRouter);
+app.use('/api/v1/business_product', business_productRouter);
 
 module.exports = {app};

@@ -12,7 +12,7 @@ const createService = async (req, res) => {
             dataSnapshot.push(doc);
         });
 
-        if (dataSnapshot.empty) {
+        if (dataSnapshot.length == 0) {
             await db.collection('empleado').add({
                 empresaId,
                 nombre,
