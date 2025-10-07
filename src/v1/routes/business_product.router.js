@@ -4,6 +4,6 @@ const { createProduct, getProductsById } = require('../../controller/business_pr
 const router = express.Router();
 
 router.post('/create_product', createProduct);
-router.get('/', getProductsById);
+router.post('/', getProductsById);
 
 module.exports = {router};

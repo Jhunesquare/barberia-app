@@ -4,6 +4,6 @@ const { getEmployees, createEmployee } = require('../../controller/employeeContr
 const router = express.Router();
 
 router.post('/create_employee', createEmployee);
-router.get('/', getEmployees);
+router.post('/', getEmployees);
 
 module.exports = {router};
